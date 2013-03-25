@@ -33,7 +33,7 @@ public class Highscore extends BaseCustomCodeMethod {
 			
 			String gameId = (String)o.get("game_id");
 			String clientId = (String)o.get("client_id");
-			double score = ((Number)o.get("score")).doubleValue();
+			double score = Double.parseDouble(o.get("score").toString());
 			String password = (String)o.get("password");
 			
 			if (gameId == null || gameId.isEmpty())
@@ -54,6 +54,8 @@ public class Highscore extends BaseCustomCodeMethod {
 			if (clientObj == null)
 				return internalError();
 			SMClient client = new SMClient(clientObj);
+			
+			// TODO: reject invalid password
 			
 			double currentScore = Util.getCurrentScore(client, lastResetTime);
 			if (currentScore < score)
