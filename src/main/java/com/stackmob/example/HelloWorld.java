@@ -16,6 +16,7 @@
 
 package com.stackmob.example;
 
+import com.stackmob.core.MethodVerb;
 import com.stackmob.core.customcode.CustomCodeMethod;
 import com.stackmob.core.rest.ProcessedAPIRequest;
 import com.stackmob.core.rest.ResponseToProcess;
@@ -42,7 +43,10 @@ public class HelloWorld implements CustomCodeMethod {
   @Override
   public ResponseToProcess execute(ProcessedAPIRequest request, SDKServiceProvider serviceProvider) {
     Map<String, Object> map = new HashMap<String, Object>();
-    map.put("msg", "Hello, world!");
+    if (request.getVerb() == MethodVerb.GET)
+    	map.put("msg", "Hello, world from GET!");
+    else
+    	map.put("msg", "Hello, world from DEFAULT!");
     return new ResponseToProcess(HttpURLConnection.HTTP_OK, map);
   }
 
