@@ -15,6 +15,7 @@ public class SMClient {
 	public String gameId;
 	public ArrayList<String> friendIds;
 	public ArrayList<SMClient> friends;
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public SMClient(SMObject o)
 	{
 		if (o == null)

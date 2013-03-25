@@ -13,6 +13,7 @@ public class SMGame {
 	{
 		if (o == null)
 			return;
+		@SuppressWarnings("rawtypes")
 		Map<String, SMValue> m = o.getValue();
 		
 		gameId = m.get("game_id").toString();

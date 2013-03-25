@@ -23,10 +23,12 @@ public class RankingMobTest {
 		}
 		
 		final SMInt i = new SMInt(3l);
+		@SuppressWarnings({ "serial", "rawtypes" })
 		SMObject o = new SMObject(new HashMap<String, SMValue>(){{
 			put("v", i);
 			
 		}}) ;
+		@SuppressWarnings("rawtypes")
 		SMValue v = o.getValue().get("v");
 		System.out.println(v.getValue().getClass());
 		v = o.getValue().get("v2");

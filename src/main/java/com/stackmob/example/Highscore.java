@@ -9,7 +9,6 @@ import java.util.Map;
 import com.stackmob.core.DatastoreException;
 import com.stackmob.core.InvalidSchemaException;
 import com.stackmob.core.MethodVerb;
-import com.stackmob.core.rest.ProcessedAPIRequest;
 import com.stackmob.core.rest.ResponseToProcess;
 import com.stackmob.sdkapi.SMDouble;
 import com.stackmob.sdkapi.SMObject;
