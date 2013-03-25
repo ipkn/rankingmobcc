@@ -31,9 +31,7 @@ public class RankingMobTest {
 		@SuppressWarnings("rawtypes")
 		SMValue v = o.getValue().get("v");
 		System.out.println(v.getValue().getClass());
-		v = o.getValue().get("v2");
-		System.out.println(v);
-		System.out.println(v.getValue().getClass());
+
 	}
 
 }
