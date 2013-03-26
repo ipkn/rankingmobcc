@@ -29,17 +29,18 @@ public class SMClient {
 			smOwner= m.get("sm_owner").toString();
 		score = ((Number)m.get("score").getValue()).doubleValue();
 		scoreDate = (Long)m.get("scoredate").getValue();
+		/*
 		friendIds = new ArrayList<String>();
 		friends = new ArrayList<SMClient>();
 		if (m.containsKey("friends"))
 		{
 			for(SMValue friend : (List<SMValue>)m.get("friends").getValue())
 			{
-				if (friend.isA(SMString.class))
+				//if (friend.isA(SMString.class))
 					friendIds.add(friend.toString());
-				else 
-					friends.add(new SMClient((SMObject)friend));
+				//else 
+					//friends.add(new SMClient((SMObject)friend));
 			}
-		}
+		}*/
 	}
 }
