@@ -26,12 +26,12 @@ public class SMClient {
 		clientId = m.get("client_id").toString();
 		if (m.containsKey("sm_owner"))
 			smOwner= m.get("sm_owner").toString();
-		score = (Double)m.get("score").getValue();
+		score = ((Number)m.get("score").getValue()).doubleValue();
 		scoreDate = (Long)m.get("scoredate").getValue();
+		friendIds = new ArrayList<String>();
+		friends = new ArrayList<SMClient>();
 		if (m.containsKey("friends"))
 		{
-			friendIds = new ArrayList<String>();
-			friends = new ArrayList<SMClient>();
 			for(SMValue friend : (List<SMValue>)m.get("friends").getValue())
 			{
 				if (friend.isA(String.class))

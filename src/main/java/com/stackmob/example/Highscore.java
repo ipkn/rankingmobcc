@@ -74,7 +74,15 @@ public class Highscore extends BaseCustomCodeMethod {
 				return internalError();
 			}
 			response.getLoggerService(Highscore.class).debug("build smclient" + clientObj.toString());
-			SMClient client = new SMClient(clientObj);
+			
+			SMClient client;
+			try {
+				client = new SMClient(clientObj);
+			}catch(Exception e)
+			{
+				response.getLoggerService(Highscore.class).error("build smclient error", e);
+				return internalError();
+			}
 			
 			// TODO: reject invalid password
 			response.getLoggerService(Highscore.class).debug("get current score");
