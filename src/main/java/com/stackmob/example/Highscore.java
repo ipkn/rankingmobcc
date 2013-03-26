@@ -73,19 +73,24 @@ public class Highscore extends BaseCustomCodeMethod {
 				response.getLoggerService(Highscore.class).error("cannot find client obj for " + clientId);
 				return internalError();
 			}
+			response.getLoggerService(Highscore.class).debug("build smclient");
 			SMClient client = new SMClient(clientObj);
 			
 			// TODO: reject invalid password
 			
 			double currentScore = Util.getCurrentScore(client, lastResetTime);
+			response.getLoggerService(Highscore.class).debug("currentscore, score compare");
 			if (currentScore < score)
 			{
+				response.getLoggerService(Highscore.class).debug("build updates");
 				currentScore = score;
 				List<SMUpdate> updates = new ArrayList<SMUpdate>();
 				updates.add(new SMSet("score", new SMDouble(currentScore)));
 				updates.add(new SMSet("scoredate", new SMInt(System.currentTimeMillis())));
 				try {
+					response.getLoggerService(Highscore.class).debug("query updates");
 					response.getDataService().updateObject("client", clientId + "\n" + gameId, updates);
+					response.getLoggerService(Highscore.class).debug("query done");
 				} catch (InvalidSchemaException e) {
 					e.printStackTrace();
 					response.getLoggerService("Highscore").error("InvalidSchemaException", e);
@@ -94,6 +99,7 @@ public class Highscore extends BaseCustomCodeMethod {
 					response.getLoggerService("Highscore").error("DatastoreException", e);
 				}
 			}
+			response.getLoggerService(Highscore.class).debug("returning");
 			Map<String, Object> m = new HashMap<String, Object>();
 			m.put("score", new Double(currentScore));
 			return new ResponseToProcess(HttpURLConnection.HTTP_OK, m);
