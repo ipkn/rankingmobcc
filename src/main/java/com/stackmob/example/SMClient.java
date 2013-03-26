@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stackmob.sdkapi.SMObject;
+import com.stackmob.sdkapi.SMString;
 import com.stackmob.sdkapi.SMValue;
 
 public class SMClient {
@@ -34,8 +35,8 @@ public class SMClient {
 		{
 			for(SMValue friend : (List<SMValue>)m.get("friends").getValue())
 			{
-				if (friend.isA(String.class))
-					friendIds.add((String)friend.getValue());
+				if (friend.isA(SMString.class))
+					friendIds.add(friend.toString());
 				else 
 					friends.add(new SMClient((SMObject)friend));
 			}

@@ -77,6 +77,8 @@ public class Highscore extends BaseCustomCodeMethod {
 			
 			SMClient client;
 			try {
+				response.getLoggerService(Highscore.class).debug("internal score " + clientObj.getValue().get("score").getClass().getName());
+				response.getLoggerService(Highscore.class).debug("internal scoredate " + clientObj.getValue().get("scoredate").getClass().getName());
 				client = new SMClient(clientObj);
 			}catch(Exception e)
 			{
