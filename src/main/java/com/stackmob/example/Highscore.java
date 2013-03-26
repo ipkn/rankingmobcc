@@ -80,7 +80,7 @@ public class Highscore extends BaseCustomCodeMethod {
 				client = new SMClient(clientObj);
 			}catch(Exception e)
 			{
-				response.getLoggerService(Highscore.class).error("build smclient error", e);
+				response.getLoggerService(Highscore.class).error("build smclient error:"+e.getClass().getName(), e);
 				return internalError();
 			}
 			
