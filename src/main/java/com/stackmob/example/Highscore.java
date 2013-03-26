@@ -26,10 +26,16 @@ public class Highscore extends BaseCustomCodeMethod {
 		if (request.getVerb() == MethodVerb.POST)
 		{
 			if (request.getBody().isEmpty())
+			{
+				response.getLoggerService(Highscore.class).error("body empty");
 				return internalError();
+			}
 			JSONObject o = (JSONObject)JSONValue.parse(request.getBody());
 			if (o == null)
+			{
+				response.getLoggerService(Highscore.class).error("json parse error");
 				return internalError();
+			}
 			
 			String gameId = (String)o.get("game_id");
 			String clientId = (String)o.get("client_id");
@@ -37,22 +43,34 @@ public class Highscore extends BaseCustomCodeMethod {
 			String password = (String)o.get("password");
 			
 			if (gameId == null || gameId.isEmpty())
+			{
+				response.getLoggerService(Highscore.class).error("json game id error");
 				return internalError();
+			}
 			if (clientId == null || clientId.isEmpty())
+			{
+				response.getLoggerService(Highscore.class).error("json client id error");
 				return internalError();
+			}
 			if (password == null)
 				password = "";
 			
 			SMObject gameObj = readByPrimaryKey("game", "game_id", gameId);
 			if (gameObj == null)
+			{
+				response.getLoggerService(Highscore.class).error("cannot find game obj for " + gameId);
 				return internalError();
+			}
 			SMGame game = new SMGame(gameObj);
 			
 			long lastResetTime = Util.computeLastResetTime(game);
 			
 			SMObject clientObj = readByPrimaryKey("client", "client_id", clientId);
 			if (clientObj == null)
+			{
+				response.getLoggerService(Highscore.class).error("cannot find client obj for " + clientId);
 				return internalError();
+			}
 			SMClient client = new SMClient(clientObj);
 			
 			// TODO: reject invalid password
