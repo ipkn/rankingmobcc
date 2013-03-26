@@ -23,15 +23,10 @@ public class SMClient {
 			return;
 		Map<String, SMValue> m = o.getValue();
 		
-		gameId = m.get("game_id").toString();
+		gameId = m.get("game").toString();
 		clientId = m.get("client_id").toString();
-		assert m.get("score").getValue() != null;
-		assert ((Number)m.get("score").getValue()) != null;
-		assert m.get("scoredate").getValue() != null;
-		assert ((Long)m.get("scoredate").getValue()) != null;
 		score = ((Number)m.get("score").getValue()).doubleValue();
 		scoreDate = (Long)m.get("scoredate").getValue();
-		/*
 		if (m.containsKey("sm_owner"))
 			smOwner= m.get("sm_owner").toString();
 		friendIds = new ArrayList<String>();
@@ -40,11 +35,11 @@ public class SMClient {
 		{
 			for(SMValue friend : (List<SMValue>)m.get("friends").getValue())
 			{
-				//if (friend.isA(SMString.class))
+				if (friend.isA(SMString.class))
 					friendIds.add(friend.toString());
-				//else 
-					//friends.add(new SMClient((SMObject)friend));
+				else 
+					friends.add(new SMClient((SMObject)friend));
 			}
-		}*/
+		}
 	}
 }
