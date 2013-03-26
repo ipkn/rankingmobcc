@@ -73,7 +73,7 @@ public class Highscore extends BaseCustomCodeMethod {
 				response.getLoggerService(Highscore.class).error("cannot find client obj for " + clientId);
 				return internalError();
 			}
-			response.getLoggerService(Highscore.class).debug("build smclient");
+			response.getLoggerService(Highscore.class).debug("build smclient" + clientObj.toString());
 			SMClient client = new SMClient(clientObj);
 			
 			// TODO: reject invalid password
