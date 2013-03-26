@@ -43,16 +43,17 @@ public class Highscore extends BaseCustomCodeMethod {
 			double score = Double.parseDouble(o.get("score").toString());
 			String password = (String)o.get("password");
 			
-			if (gameId == null || gameId.isEmpty())
+			if (gameId == null || gameId.isEmpty() || gameId.contains("\n"))
 			{
 				response.getLoggerService(Highscore.class).error("json game id error");
 				return internalError();
 			}
-			if (clientId == null || clientId.isEmpty())
+			if (clientId == null || clientId.isEmpty() || clientId.contains("\n"))
 			{
 				response.getLoggerService(Highscore.class).error("json client id error");
 				return internalError();
 			}
+			
 			if (password == null)
 				password = "";
 			
@@ -66,7 +67,7 @@ public class Highscore extends BaseCustomCodeMethod {
 			
 			long lastResetTime = Util.computeLastResetTime(game);
 			
-			SMObject clientObj = readByPrimaryKey("client", "client_id", clientId);
+			SMObject clientObj = readByPrimaryKey("client", "client_id", clientId+"\n"+gameId);
 			if (clientObj == null)
 			{
 				response.getLoggerService(Highscore.class).error("cannot find client obj for " + clientId);
@@ -84,7 +85,7 @@ public class Highscore extends BaseCustomCodeMethod {
 				updates.add(new SMSet("score", new SMDouble(currentScore)));
 				updates.add(new SMSet("scoredate", new SMInt(System.currentTimeMillis())));
 				try {
-					response.getDataService().updateObject("client", clientId, updates);
+					response.getDataService().updateObject("client", clientId + "\n" + gameId, updates);
 				} catch (InvalidSchemaException e) {
 					e.printStackTrace();
 					response.getLoggerService("Highscore").error("InvalidSchemaException", e);
