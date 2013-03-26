@@ -23,6 +23,7 @@ public class Highscore extends BaseCustomCodeMethod {
 	
 	@Override
 	public ResponseToProcess _execute() {
+		response.getLoggerService(Highscore.class).debug("highscore running");
 		if (request.getVerb() == MethodVerb.POST)
 		{
 			if (request.getBody().isEmpty())
