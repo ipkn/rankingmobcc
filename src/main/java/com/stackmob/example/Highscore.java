@@ -77,7 +77,7 @@ public class Highscore extends BaseCustomCodeMethod {
 			SMClient client = new SMClient(clientObj);
 			
 			// TODO: reject invalid password
-			
+			response.getLoggerService(Highscore.class).debug("get current score");
 			double currentScore = Util.getCurrentScore(client, lastResetTime);
 			response.getLoggerService(Highscore.class).debug("currentscore, score compare");
 			if (currentScore < score)

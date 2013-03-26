@@ -24,17 +24,21 @@ public class SMClient {
 		
 		gameId = m.get("game_id").toString();
 		clientId = m.get("client_id").toString();
-		smOwner= m.get("sm_owner").toString();
+		if (m.containsKey("sm_owner"))
+			smOwner= m.get("sm_owner").toString();
 		score = (Double)m.get("score").getValue();
 		scoreDate = (Long)m.get("scoredate").getValue();
-		friendIds = new ArrayList<String>();
-		friends = new ArrayList<SMClient>();
-		for(SMValue friend : (List<SMValue>)m.get("friends").getValue())
+		if (m.containsKey("friends"))
 		{
-			if (friend.isA(String.class))
-				friendIds.add((String)friend.getValue());
-			else 
-				friends.add(new SMClient((SMObject)friend));
+			friendIds = new ArrayList<String>();
+			friends = new ArrayList<SMClient>();
+			for(SMValue friend : (List<SMValue>)m.get("friends").getValue())
+			{
+				if (friend.isA(String.class))
+					friendIds.add((String)friend.getValue());
+				else 
+					friends.add(new SMClient((SMObject)friend));
+			}
 		}
 	}
 }
