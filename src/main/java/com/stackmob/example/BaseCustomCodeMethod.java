@@ -37,12 +37,17 @@ public abstract class BaseCustomCodeMethod implements CustomCodeMethod {
 	
 	SMObject readByPrimaryKey(String schema, String primaryKeyName, String key)
 	{
+		return readByPrimaryKey(schema, primaryKeyName, key, 0);
+	}
+	
+	SMObject readByPrimaryKey(String schema, String primaryKeyName, String key, int depth)
+	{
 		DataService ds = response.getDataService();
 		try {
 			List<SMObject> ret = ds.readObjects(schema, new ArrayList<SMCondition>(Arrays.asList(
 					new SMEquals(primaryKeyName, new SMString(key))
 					
-					)));
+					)), depth);
 			if (ret.size() == 0)
 				return null;
 			return ret.get(0);

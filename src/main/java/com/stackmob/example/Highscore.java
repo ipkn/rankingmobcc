@@ -23,7 +23,6 @@ public class Highscore extends BaseCustomCodeMethod {
 	
 	@Override
 	public ResponseToProcess _execute() {
-		response.getLoggerService(Highscore.class).debug("highscore running");
 		if (request.getVerb() == MethodVerb.POST)
 		{
 			if (request.getBody().isEmpty())
@@ -73,12 +72,9 @@ public class Highscore extends BaseCustomCodeMethod {
 				response.getLoggerService(Highscore.class).error("cannot find client obj for " + clientId);
 				return internalError();
 			}
-			response.getLoggerService(Highscore.class).debug("build smclient" + clientObj.toString());
 			
 			SMClient client;
 			try {
-				response.getLoggerService(Highscore.class).debug("internal score " + clientObj.getValue().get("score").getClass().getName());
-				response.getLoggerService(Highscore.class).debug("internal scoredate " + clientObj.getValue().get("scoredate").getClass().getName());
 				client = new SMClient(clientObj);
 			}catch(Exception e)
 			{
@@ -87,20 +83,16 @@ public class Highscore extends BaseCustomCodeMethod {
 			}
 			
 			// TODO: reject invalid password
-			response.getLoggerService(Highscore.class).debug("get current score");
+
 			double currentScore = Util.getCurrentScore(client, lastResetTime);
-			response.getLoggerService(Highscore.class).debug("currentscore, score compare");
 			if (currentScore < score)
 			{
-				response.getLoggerService(Highscore.class).debug("build updates");
 				currentScore = score;
 				List<SMUpdate> updates = new ArrayList<SMUpdate>();
 				updates.add(new SMSet("score", new SMDouble(currentScore)));
 				updates.add(new SMSet("scoredate", new SMInt(System.currentTimeMillis())));
 				try {
-					response.getLoggerService(Highscore.class).debug("query updates");
 					response.getDataService().updateObject("client", clientId + "\n" + gameId, updates);
-					response.getLoggerService(Highscore.class).debug("query done");
 				} catch (InvalidSchemaException e) {
 					e.printStackTrace();
 					response.getLoggerService("Highscore").error("InvalidSchemaException", e);
@@ -109,7 +101,6 @@ public class Highscore extends BaseCustomCodeMethod {
 					response.getLoggerService("Highscore").error("DatastoreException", e);
 				}
 			}
-			response.getLoggerService(Highscore.class).debug("returning");
 			Map<String, Object> m = new HashMap<String, Object>();
 			m.put("score", new Double(currentScore));
 			return new ResponseToProcess(HttpURLConnection.HTTP_OK, m);

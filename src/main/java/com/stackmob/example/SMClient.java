@@ -24,7 +24,9 @@ public class SMClient {
 		Map<String, SMValue> m = o.getValue();
 		
 		gameId = m.get("game").toString();
-		clientId = m.get("client_id").toString();
+		String[] clientIdArray = m.get("client_id").toString().split("\n");
+		clientId = clientIdArray[0];
+		assert gameId == clientIdArray[1];
 		score = ((Number)m.get("score").getValue()).doubleValue();
 		scoreDate = (Long)m.get("scoredate").getValue();
 		if (m.containsKey("sm_owner"))
