@@ -38,6 +38,9 @@ public class WideRanking extends BaseCustomCodeMethod {
 			final long resetTime = Util.computeLastResetTime(game);
 			
 			final SMObject clientObj = readByPrimaryKey("client", "client_id", clientId, 2);
+			
+			response.getLoggerService(WideRanking.class).debug("clientObj " + clientObj.toString());
+			
 			final SMClient client = new SMClient(clientObj);
 			final double clientScore = Util.getCurrentScore(client, resetTime);
 			
