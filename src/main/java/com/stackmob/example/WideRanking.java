@@ -25,6 +25,8 @@ public class WideRanking extends BaseCustomCodeMethod {
 
 	@Override
 	ResponseToProcess _execute() {
+		try 
+		{
 		if (request.getVerb() == MethodVerb.GET)
 		{
 			final String gameId = request.getParams().get("game_id");
@@ -55,12 +57,17 @@ public class WideRanking extends BaseCustomCodeMethod {
 				result.add(allInOne);
 			}
 			
-			Map<String, ArrayList<ArrayList<Object>>> m = new HashMap<String, ArrayList<ArrayList<Object>>>();
+			Map<String, Object> m = new HashMap<String, Object>();
 			m.put("scores", result);
+			m.put("score", clientScore);
 			
 			return new ResponseToProcess(HttpURLConnection.HTTP_OK, m);
 			
 		}
+		} catch(Exception e) {
+			response.getLoggerService(WideRanking.class).error("exception " + e.getClass().getName(), e);
+		}
+		
 		return internalError();
 	}
 
