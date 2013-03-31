@@ -26,7 +26,7 @@ public class SMClient {
 		gameId = m.get("game").toString();
 		String[] clientIdArray = m.get("client_id").toString().split("\n");
 		clientId = clientIdArray[0];
-		assert gameId == clientIdArray[1];
+		assert gameId.equals(clientIdArray[1]);
 		score = ((Number)m.get("score").getValue()).doubleValue();
 		scoreDate = (Long)m.get("scoredate").getValue();
 		if (m.containsKey("sm_owner"))

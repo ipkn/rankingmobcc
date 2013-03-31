@@ -21,7 +21,8 @@ import org.json.simple.*;
 public class Highscore extends BaseCustomCodeMethod {
 
 	
-	@Override
+	@SuppressWarnings("UnusedAssignment")
+    @Override
 	public ResponseToProcess _execute() {
 		if (request.getVerb() == MethodVerb.POST)
 		{
@@ -102,7 +103,7 @@ public class Highscore extends BaseCustomCodeMethod {
 				}
 			}
 			Map<String, Object> m = new HashMap<String, Object>();
-			m.put("score", new Double(currentScore));
+			m.put("score", currentScore);
 			return new ResponseToProcess(HttpURLConnection.HTTP_OK, m);
 			
 		}
