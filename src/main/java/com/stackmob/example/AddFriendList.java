@@ -4,7 +4,10 @@ import com.stackmob.core.DatastoreException;
 import com.stackmob.core.InvalidSchemaException;
 import com.stackmob.core.MethodVerb;
 import com.stackmob.core.rest.ResponseToProcess;
-import com.stackmob.sdkapi.*;
+import com.stackmob.sdkapi.DataService;
+import com.stackmob.sdkapi.SMObject;
+import com.stackmob.sdkapi.SMString;
+import com.stackmob.sdkapi.SMValue;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -14,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddFriend extends BaseCustomCodeMethod {
+public class AddFriendList extends BaseCustomCodeMethod {
     @SuppressWarnings("UnusedAssignment")
     @Override
     ResponseToProcess _execute() {
@@ -34,7 +37,7 @@ public class AddFriend extends BaseCustomCodeMethod {
 
             String gameId = o.get("game_id").toString();
             String clientId = o.get("client_id").toString();
-            String friendId = o.get("friend_id").toString();
+            List friendIds = (List)o.get("friends");
             String password = (String)o.get("password");
 
             if (gameId == null || gameId.isEmpty() || gameId.contains("\n"))
@@ -47,9 +50,9 @@ public class AddFriend extends BaseCustomCodeMethod {
                 response.getLoggerService(AddFriend.class).error("json client id error");
                 return internalError();
             }
-            if (friendId == null || friendId.isEmpty() || friendId.contains("\n"))
+            if (friendIds == null || friendIds.isEmpty())
             {
-                response.getLoggerService(AddFriend.class).error("json friend id error");
+                response.getLoggerService(AddFriend.class).error("json friend list error");
                 return internalError();
             }
 
@@ -65,12 +68,26 @@ public class AddFriend extends BaseCustomCodeMethod {
 
             DataService db = response.getDataService();
             List<SMValue> valueToAppend = new ArrayList<SMValue>();
-            valueToAppend.add(new SMString(friendId+"\n"+gameId));
+            for(Object oFriendId : friendIds)
+            {
+                if (!(oFriendId instanceof String))
+                {
+                    response.getLoggerService(AddFriend.class).error("json friend id error");
+                    return internalError();
+                }
+                String friendId = (String)oFriendId;
+                if (friendId.isEmpty() || friendId.contains("\n"))
+                {
+                    response.getLoggerService(AddFriend.class).error("json friend id error");
+                    return internalError();
+                }
+                valueToAppend.add(new SMString(friendId+"\n"+gameId));
+            }
             try {
                 SMObject ret = db.addRelatedObjects("client", new SMString(clientId + "\n" + gameId), "friends", valueToAppend);
                 if (ret == null)
                 {
-                    response.getLoggerService(AddFriend.class).error("cannot find add relation " + friendId+ " for " + clientId + " with game " + gameId);
+                    response.getLoggerService(AddFriend.class).error("cannot find add relation " + friendIds.toString()+ " for " + clientId + " with game " + gameId);
                     return internalError();
                 }
             } catch (InvalidSchemaException e) {
@@ -88,7 +105,7 @@ public class AddFriend extends BaseCustomCodeMethod {
 
     @Override
     public String getMethodName() {
-        return "add_friend";
+        return "add_friend_list";
     }
 
     @Override
@@ -96,7 +113,7 @@ public class AddFriend extends BaseCustomCodeMethod {
         List<String> l = new ArrayList<String>();
         l.add("game_id");
         l.add("client_id");
-        l.add("friend_id");
+        l.add("friends");
         l.add("password");
         return l;
     }
